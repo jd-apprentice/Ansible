@@ -1,0 +1,20 @@
+- name: Configure Docker
+  hosts: localhost
+  tasks:
+    - name: Give permission to scripts
+      file:
+        path: ../scripts
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    # Playbook specific
+
+    - name: install docker
+      script: ../scripts/install-docker.sh # Ubuntu specific
+
+    - name: docker compose
+      shell: docker compose -f weather.docker-compose.yml up -d
+      args:
+        chdir: ../files
+        executable: /bin/bash

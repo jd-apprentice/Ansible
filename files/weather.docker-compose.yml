@@ -1,0 +1,9 @@
+version: "3.1"
+services:
+  weather:
+    container_name: weather_container
+    build:
+      context: .
+      dockerfile: weather.Dockerfile
+    ports:
+      - "7070:70"

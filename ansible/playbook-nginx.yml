@@ -1,0 +1,17 @@
+- name: Configure Nginx
+  hosts: localhost
+  tasks:
+    - name: Give permission to scripts
+      file:
+        path: ../scripts
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    # Playbook specific
+
+    - name: docker compose up
+      shell: docker compose -f nginx.docker-compose.yml up -d
+      args:
+        chdir: ../files
+        executable: /bin/bash
