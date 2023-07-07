@@ -3,3 +3,6 @@ docker:
 
 nginx:
 	ansible-playbook ansible/playbook-nginx.yml
+
+structure:
+	ansible-playbook ansible/playbook-structure.yml

@@ -1,0 +1,29 @@
+- name: Configure Folder Structure
+  hosts: localhost
+  tasks:
+    - name: Give permission to scripts
+      file:
+        path: ../scripts
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    # Playbook specific
+
+    - name: Create folder for playbooks files
+      file:
+        path: "$HOME/{{ item }}"
+        state: directory
+      loop:
+        - "Documents/Playbook"
+
+    - name: Create files for projects
+      file:
+        path: "$HOME/Documents/Playbook/{{ item }}"
+        state: touch
+      loop:
+        - "README.md"
+        - "LICENSE"
+        - "CONTRIBUTING.md"
+        - "CODE_OF_CONDUCT.md"
+        - "CHANGELOG.md"
