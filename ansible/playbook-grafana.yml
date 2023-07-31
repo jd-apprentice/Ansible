@@ -1,0 +1,43 @@
+- name: Configure Grafana
+  hosts: all
+  tasks:
+    - name: Give permission to scripts
+      file:
+        path: ../scripts
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    # Playbook specific
+
+    - vars:
+        grafana_agent_arch: "{{ lookup('env', 'GRAFANA_AGENT_ARCH') }}"
+        grafana_token: "{{ lookup('env', 'GRAFANA_TOKEN') }}"
+
+    - name: install grafana-agent
+      shell: ../scripts/install-grafana-agent.sh "{{ grafana_agent_arch }}" "{{ grafana_token }}"
+      become: yes
+      become_method: sudo
+      args:
+        executable: /bin/bash
+
+    - name: pre-requisite for grafana-agent
+      shell: |
+        sudo usermod -a -G docker grafana-agent
+        sudo systemctl edit --full grafana-agent.service
+        sudo systemctl daemon-reload
+        sudo systemctl restart grafana-agent.service
+      become: yes
+      become_method: sudo
+      args:
+        executable: /bin/bash
+
+    - name: copy grafana-agent.yml
+      copy:
+        src: ../files/grafana-agent.yml
+        dest: /etc/grafana-agent.yml
+        owner: grafana-agent
+        group: grafana-agent
+        mode: 0644
+      become: yes
+      become_method: sudo

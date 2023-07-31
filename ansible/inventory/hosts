@@ -1,0 +1,9 @@
+[windows]
+<ip>
+
+[windows:vars]
+ansible_user=user
+ansible_password=pass
+ansible_port=https-port
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore

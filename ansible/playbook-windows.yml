@@ -1,0 +1,8 @@
+- name: Windows install namecoin
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: install namecoin
+      win_chocolatey:
+        name: namecoin
+        state: present
